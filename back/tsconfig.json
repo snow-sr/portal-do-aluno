@@ -1,0 +1,14 @@
+{
+    "compilerOptions": {
+        "outDir": "./build",
+        "target": "ES6",
+        "moduleResolution": "node",
+        "strict": true,
+        "sourceMap": true,
+        "lib": ["ESNext"],
+        "esModuleInterop": true
+    },
+    "exclude": [
+        "node_modules"
+    ]
+}
