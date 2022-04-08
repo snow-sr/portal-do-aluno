@@ -7,19 +7,39 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-import { PrismaClient } from "@prisma/client";
+import chalk from "chalk";
+import PrismaImport from "@prisma/client";
+const { PrismaClient } = PrismaImport;
 const prisma = new PrismaClient();
-function main() {
+export function createUser(user) {
     return __awaiter(this, void 0, void 0, function* () {
         yield prisma.$connect();
-        console.log("Prisma connected!");
+        console.log(chalk.yellow("Connected to Prisma"));
+        const newUser = yield prisma.user.create({ data: user });
+        console.log(newUser);
+        return newUser;
     });
 }
-main()
-    .catch((e) => {
-    throw e;
-})
-    .finally(() => __awaiter(void 0, void 0, void 0, function* () {
-    yield prisma.$disconnect();
-}));
+export function login(email, password) {
+    return __awaiter(this, void 0, void 0, function* () {
+        yield prisma.$connect();
+        console.log(chalk.yellow("Connected to Prisma"));
+        const userToLogin = yield prisma.user.findUnique({
+            where: { email: email }
+        });
+        if (!userToLogin) {
+            console.log(chalk.red("User not found"));
+            prisma.$disconnect();
+            return null;
+        }
+        if (userToLogin.password !== password) {
+            console.log(chalk.red("Wrong password"));
+            prisma.$disconnect();
+            return null;
+        }
+        prisma.$disconnect();
+        console.log(chalk.yellow("User found! Logging in..."));
+        return userToLogin;
+    });
+}
 //# sourceMappingURL=index.js.map
