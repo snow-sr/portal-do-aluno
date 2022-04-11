@@ -12,21 +12,21 @@ export async function createUser(user: any) {
   return newUser;
 }
 
-export async function login(email:string, password:string) {
+export async function login(email: string, password: string) {
   await prisma.$connect();
   console.log(chalk.yellow("Connected to Prisma"));
 
   const userToLogin = await prisma.user.findUnique({
-    where: {email: email}
-  })
+    where: { email: email },
+  });
 
-  if(!userToLogin) {
+  if (!userToLogin) {
     console.log(chalk.red("User not found"));
     prisma.$disconnect();
     return null;
   }
 
-  if(userToLogin.password !== password) {
+  if (userToLogin.password !== password) {
     console.log(chalk.red("Wrong password"));
     prisma.$disconnect();
     return null;
@@ -35,6 +35,4 @@ export async function login(email:string, password:string) {
   prisma.$disconnect();
   console.log(chalk.yellow("User found! Logging in..."));
   return userToLogin;
-
 }
-
