@@ -1,4 +1,5 @@
 import chalk from "chalk";
+import { response } from "../lib/index.js";
 import PrismaImport from "@prisma/client";
 const { PrismaClient } = PrismaImport;
 const prisma = new PrismaClient();
@@ -23,16 +24,16 @@ export async function login(email: string, password: string) {
   if (!userToLogin) {
     console.log(chalk.red("User not found"));
     prisma.$disconnect();
-    return null;
+    return new response(401, "User not found");
   }
 
   if (userToLogin.password !== password) {
     console.log(chalk.red("Wrong password"));
     prisma.$disconnect();
-    return null;
+    return new response(401, "Wrong password");
   }
 
   prisma.$disconnect();
   console.log(chalk.yellow("User found! Logging in..."));
-  return userToLogin;
+  return new response(200, userToLogin);
 }
