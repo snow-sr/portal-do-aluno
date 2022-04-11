@@ -5,4 +5,4 @@ export class response {
         this.user = user;
     }
 }
-//# sourceMappingURL=index.js.map
+//# sourceMappingURL=responseConstructor.js.map

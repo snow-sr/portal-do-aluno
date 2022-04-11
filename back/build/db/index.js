@@ -8,19 +8,10 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 import chalk from "chalk";
-import { response } from "../lib/index.js";
+import { response } from "../lib/responseConstructor.js";
 import PrismaImport from "@prisma/client";
 const { PrismaClient } = PrismaImport;
 const prisma = new PrismaClient();
-export function createUser(user) {
-    return __awaiter(this, void 0, void 0, function* () {
-        yield prisma.$connect();
-        console.log(chalk.yellow("Connected to Prisma"));
-        const newUser = yield prisma.user.create({ data: user });
-        console.log(newUser);
-        return newUser;
-    });
-}
 export function login(email, password) {
     return __awaiter(this, void 0, void 0, function* () {
         yield prisma.$connect();
@@ -40,7 +31,7 @@ export function login(email, password) {
         }
         prisma.$disconnect();
         console.log(chalk.yellow("User found! Logging in..."));
-        return new response(200, userToLogin);
+        return new response(200, "Authorized", userToLogin);
     });
 }
 //# sourceMappingURL=index.js.map

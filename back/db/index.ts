@@ -1,17 +1,8 @@
 import chalk from "chalk";
-import { response } from "../lib/index.js";
+import { response } from "../lib/responseConstructor.js";
 import PrismaImport from "@prisma/client";
 const { PrismaClient } = PrismaImport;
 const prisma = new PrismaClient();
-
-export async function createUser(user: any) {
-  await prisma.$connect();
-  console.log(chalk.yellow("Connected to Prisma"));
-
-  const newUser = await prisma.user.create({ data: user });
-  console.log(newUser);
-  return newUser;
-}
 
 export async function login(email: string, password: string) {
   await prisma.$connect();
@@ -35,5 +26,5 @@ export async function login(email: string, password: string) {
 
   prisma.$disconnect();
   console.log(chalk.yellow("User found! Logging in..."));
-  return new response(200, userToLogin);
+  return new response(200, "Authorized", userToLogin);
 }
