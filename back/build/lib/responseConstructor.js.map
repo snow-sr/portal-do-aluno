@@ -1,0 +1,1 @@
+{"version":3,"file":"responseConstructor.js","sourceRoot":"","sources":["../../lib/responseConstructor.ts"],"names":[],"mappings":"AAAA,MAAM,OAAO,QAAQ;IAInB,YAAY,MAAc,EAAE,OAAY,EAAE,IAAU;QAClD,IAAI,CAAC,MAAM,GAAG,MAAM,CAAC;QACrB,IAAI,CAAC,OAAO,GAAG,OAAO,CAAC;QACvB,IAAI,CAAC,IAAI,GAAG,IAAI,CAAC;IACnB,CAAC;CACF"}

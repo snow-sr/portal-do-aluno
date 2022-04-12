@@ -7,19 +7,31 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-import { PrismaClient } from "@prisma/client";
+import chalk from "chalk";
+import { response } from "../lib/responseConstructor.js";
+import PrismaImport from "@prisma/client";
+const { PrismaClient } = PrismaImport;
 const prisma = new PrismaClient();
-function main() {
+export function login(email, password) {
     return __awaiter(this, void 0, void 0, function* () {
         yield prisma.$connect();
-        console.log("Prisma connected!");
+        console.log(chalk.yellow("Connected to Prisma"));
+        const userToLogin = yield prisma.user.findUnique({
+            where: { email: email },
+        });
+        if (!userToLogin) {
+            console.log(chalk.red("User not found"));
+            prisma.$disconnect();
+            return new response(401, "User not found");
+        }
+        if (userToLogin.password !== password) {
+            console.log(chalk.red("Wrong password"));
+            prisma.$disconnect();
+            return new response(401, "Wrong password");
+        }
+        prisma.$disconnect();
+        console.log(chalk.yellow("User found! Logging in..."));
+        return new response(200, "Authorized", userToLogin);
     });
 }
-main()
-    .catch((e) => {
-    throw e;
-})
-    .finally(() => __awaiter(void 0, void 0, void 0, function* () {
-    yield prisma.$disconnect();
-}));
 //# sourceMappingURL=index.js.map
