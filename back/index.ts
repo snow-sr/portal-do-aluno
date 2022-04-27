@@ -15,7 +15,6 @@ app.get("/", (req, res) => {
 });
 
 app.post("/login", (req, res) => {
-  console.log(req.body);
   login(req.body.email, req.body.password)
     .then((result) => {
       res.status(result.status).send(result.user || result.message);
