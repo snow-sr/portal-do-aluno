@@ -1,6 +1,7 @@
 <script>
 import axios from "axios";
 axios.defaults.baseURL = "http://localhost:8087/";
+
 export default {
   data() {
     return {
