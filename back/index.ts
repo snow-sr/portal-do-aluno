@@ -6,6 +6,7 @@ import cors from "cors";
 
 const app = express();
 const port = process.env.PORT || 8087;
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors());
@@ -15,7 +16,6 @@ app.get("/", (req, res) => {
 });
 
 app.post("/login", (req, res) => {
-  console.log(req.body);
   login(req.body.email, req.body.password)
     .then((result) => {
       res.status(result.status).send(result.user || result.message);
