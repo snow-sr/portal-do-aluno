@@ -12,7 +12,6 @@ app.get("/", (req, res) => {
     res.send("Hello World! This is the API of portal do aluno - ifc araquari");
 });
 app.post("/login", (req, res) => {
-    console.log(req.body);
     login(req.body.email, req.body.password)
         .then((result) => {
         res.status(result.status).send(result.user || result.message);
