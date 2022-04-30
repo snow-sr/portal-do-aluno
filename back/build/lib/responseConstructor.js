@@ -1,8 +1,8 @@
 export class response {
-    constructor(status, message, user) {
+    constructor(status, message, content) {
         this.status = status;
         this.message = message;
-        this.user = user;
+        this.content = content;
     }
 }
 //# sourceMappingURL=responseConstructor.js.map

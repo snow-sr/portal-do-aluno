@@ -21,6 +21,8 @@ export default {
           if (response.statusText == "OK") {
             this.error = false;
             console.log("success!");
+            console.log(response.data);
+            localStorage.setItem("user", JSON.stringify(response.data));
             this.$router.push("/home");
           }
         })

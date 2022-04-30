@@ -2,7 +2,8 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 generator client {
-  provider = "prisma-client-js"
+  provider      = "prisma-client-js"
+  binaryTargets = "debian-openssl-3.0.x"
 }
 
 datasource db {
@@ -15,4 +16,15 @@ model User {
   name     String
   email    String @unique
   password String
+  post     post[]
+}
+
+model post {
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  title      String
+  content    String
+  author     User     @relation(fields: [authorId], references: [id])
+  authorId   String   @db.ObjectId
+  authorName String
+  data       DateTime @default(now())
 }
