@@ -8,10 +8,11 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 import chalk from "chalk";
+import { response } from "../lib/responseConstructor.js";
 import PrismaImport from "@prisma/client";
 const { PrismaClient } = PrismaImport;
 const prisma = new PrismaClient();
-export function createPost(toPost) {
+export function createKisk(toPost) {
     return __awaiter(this, void 0, void 0, function* () {
         yield prisma.$connect();
         console.log(chalk.yellow("Connected to Prisma"));
@@ -19,9 +20,33 @@ export function createPost(toPost) {
             data: {
                 title: toPost.title,
                 content: toPost.content,
-                authorId: toPost.author.id,
+                author: { connect: { id: toPost.author.id } },
+                authorName: toPost.author.name,
             },
         });
+        if (!newPost) {
+            console.log(chalk.green("Post not created"));
+            prisma.$disconnect();
+            return new response(503, "Post not created");
+        }
+        yield prisma.$disconnect();
+        console.log(chalk.green("Post created"));
+        return new response(200, "Post created");
+    });
+}
+export function getKisks() {
+    return __awaiter(this, void 0, void 0, function* () {
+        yield prisma.$connect();
+        console.log(chalk.yellow("Connected to Prisma"));
+        let kisks = yield prisma.post.findMany({});
+        if (!kisks) {
+            console.log(chalk.green("No posts found"));
+            prisma.$disconnect();
+            return new response(503, "No posts found");
+        }
+        yield prisma.$disconnect();
+        console.log(chalk.green("Posts found"));
+        return new response(200, "Posts found", kisks);
     });
 }
 //# sourceMappingURL=postsFunctions.js.map
