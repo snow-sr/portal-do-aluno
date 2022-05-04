@@ -24,6 +24,7 @@ export default {
           id: user.id,
           name: user.name,
         },
+        isArticle: false,
       });
 
       await request
@@ -48,7 +49,6 @@ export default {
 
 <template>
   <div class="h-screen w-full flex items-center justify-center">
-
     <div
       class="bg-red-100 rounded-lg py-5 px-6 mb-4 text-base text-red-700 mb-3"
       role="alert"
