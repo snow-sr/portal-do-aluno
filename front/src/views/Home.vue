@@ -1,22 +1,17 @@
 <script>
-import Post from "@/components/Post.vue";
+import sideNav from "../components/sideNav.vue";
+import FeedComponent from "../components/feedComponent.vue";
 
 export default {
-  components: { Post },
+  components: { sideNav, FeedComponent },
 };
 </script>
 
 <template>
-  <div>Oi! Você conseguiu logar com sucesso!</div>
-  <div>
-    <a
-      href="#/createPost"
-      type="button"
-      class="inline-block px-6 py-2.5 bg-purple-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-purple-700 hover:shadow-lg focus:bg-purple-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-purple-800 active:shadow-lg transition duration-150 ease-in-out"
-      >Criar post</a
-    >
-  </div>
-  <div>
-    <Post />
+  <div class="grid grid-cols-2">
+    <side-nav />
+    <feed-component />
   </div>
 </template>
+
+<style scoped src="@/assets/home.css"></style>

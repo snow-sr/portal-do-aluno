@@ -15,4 +15,19 @@ model User {
   name     String
   email    String @unique
   password String
+  post     post[]
+}
+
+model post {
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  title      String
+  subtitle   String?
+  content    String
+  author     User     @relation(fields: [authorId], references: [id])
+  authorId   String   @db.ObjectId
+  authorName String
+  data       DateTime @default(now())
+  isArticle  Boolean  @default(false)
+  media      String? // Link for Audio, Video, Image  
+  tags       String[]
 }

@@ -1,5 +1,6 @@
 <script>
 import axios from "axios";
+
 axios.defaults.baseURL = "http://localhost:8087/";
 export default {
   data() {
@@ -21,6 +22,8 @@ export default {
           if (response.statusText == "OK") {
             this.error = false;
             console.log("success!");
+            console.log(response.data);
+            localStorage.setItem("user", JSON.stringify(response.data));
             this.$router.push("/home");
           }
         })
