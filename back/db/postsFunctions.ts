@@ -11,6 +11,7 @@ export interface post {
     id: string;
     name: string;
   };
+  isArticle?: boolean;
 }
 
 export async function createKisk(toPost: post) {
@@ -23,6 +24,7 @@ export async function createKisk(toPost: post) {
       content: toPost.content,
       author: { connect: { id: toPost.author.id } },
       authorName: toPost.author.name,
+      isArticle: toPost.isArticle,
     },
   });
 
@@ -49,7 +51,14 @@ export async function getKisks() {
     return new response(503, "No posts found");
   }
 
+  let kisksSortidos = kisks.sort((a, b) => {
+    if (a.data > b.data) return -1;
+    if (a.data < b.data) return 1;
+    return 0;
+  });
+
+  // KISKS SORTIDOS são os kisks ordenados por data!
   await prisma.$disconnect();
   console.log(chalk.green("Posts found"));
-  return new response(200, "Posts found", kisks);
+  return new response(200, "Posts found", kisksSortidos);
 }

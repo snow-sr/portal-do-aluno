@@ -24,6 +24,7 @@ export default {
           id: user.id,
           name: user.name,
         },
+        isArticle: false,
       });
 
       await request
@@ -55,7 +56,8 @@ export default {
     >
       Algo deu errado, quer tentar de novo?
     </div>
-    <div class="block rounded-lg shadow-lg bg-white">
+
+    <div class="block p-8 rounded-lg shadow-lg bg-gray-200">
       <div
         class="bg-green-100 rounded-lg py-5 px-6 mb-4 text-base text-green-700 mb-3"
         role="alert"
@@ -92,7 +94,7 @@ export default {
           id="exampleFormControlTextarea13"
           rows="3"
           v-model="content"
-          placeholder="Message"
+          placeholder="Digite..."
           @change="
             () => {
               this.posted = false;
