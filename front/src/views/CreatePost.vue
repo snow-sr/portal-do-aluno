@@ -16,32 +16,38 @@ export default {
       if (!user) {
         this.$router.push("/");
       }
+      if (this.title.length < 3) {
+        this.error = true;
+        return;
+      }
 
-      let request = axios.post("http://localhost:8087/createKisk", {
-        title: this.title,
-        content: this.content,
-        author: {
-          id: user.id,
-          name: user.name,
-        },
-        isArticle: false,
-      });
-
-      await request
-        .then((response) => {
-          if (response.statusText == "OK") {
-            this.posted = true;
-          }
-        })
-        .catch((err) => {
-          if (err.response.statusText == "Unauthorized") {
-            console.log(
-              "Unauthorized, that user can't be found at our system!"
-            );
-          }
-          console.log(err);
-          this.error = true;
+      if (this.error == false) {
+        let request = axios.post("http://localhost:8087/createKisk", {
+          title: this.title,
+          content: this.content,
+          author: {
+            id: user.id,
+            name: user.name,
+          },
+          isArticle: false,
         });
+
+        await request
+          .then((response) => {
+            if (response.statusText == "OK") {
+              this.posted = true;
+            }
+          })
+          .catch((err) => {
+            if (err.response.statusText == "Unauthorized") {
+              console.log(
+                "Unauthorized, that user can't be found at our system!"
+              );
+            }
+            console.log(err);
+            this.error = true;
+          });
+      }
     },
   },
 };
@@ -75,6 +81,7 @@ export default {
           @change="
             () => {
               this.posted = false;
+              this.error = false;
             }
           "
         />
@@ -114,8 +121,13 @@ export default {
           for="exampleCheck87"
           >Pode ser compartilhado?</label
         >
-        <button>Enviar</button>
       </div>
+      <button
+        @click="createKisk"
+        class="w-full px-6 py-2.5 bg-green_ifc text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out"
+      >
+        Enviar
+      </button>
     </div>
   </div>
 </template>
