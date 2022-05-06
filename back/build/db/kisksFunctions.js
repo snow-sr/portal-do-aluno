@@ -58,4 +58,50 @@ export function getVisibleKisks() {
         return new response(200, "Posts found", kisksSortidos);
     });
 }
+export function searchKisksById(userId) {
+    return __awaiter(this, void 0, void 0, function* () {
+        yield prisma.$connect();
+        console.log(chalk.yellow("Connected to Prisma"));
+        let kisks = yield prisma.post.findMany({
+            where: {
+                authorId: userId,
+            },
+        });
+        if (!kisks) {
+            console.log(chalk.green("No posts found"));
+            prisma.$disconnect();
+            return new response(503, "No posts found");
+        }
+        if (kisks.length < 1) {
+            console.log(chalk.green("No posts found"));
+            prisma.$disconnect();
+            return new response(503, "No posts found");
+        }
+        yield prisma.$disconnect();
+        console.log(chalk.green("Posts found"));
+        return new response(200, "Posts found", kisks);
+    });
+}
+export function changeKiskVisibility(KiskId, isVisible) {
+    return __awaiter(this, void 0, void 0, function* () {
+        yield prisma.$connect();
+        console.log(chalk.yellow("Connected to Prisma"));
+        let kisk = yield prisma.post.update({
+            where: {
+                id: KiskId,
+            },
+            data: {
+                isVisible,
+            },
+        });
+        if (!kisk) {
+            console.log(chalk.green("Post not found"));
+            prisma.$disconnect();
+            return new response(503, "Post not found");
+        }
+        yield prisma.$disconnect();
+        console.log(chalk.green("Post Updated"));
+        return new response(200, "Post Updated");
+    });
+}
 //# sourceMappingURL=kisksFunctions.js.map

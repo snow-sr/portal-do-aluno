@@ -2,7 +2,12 @@ import chalk from "chalk";
 import express from "express";
 import "dotenv/config";
 import { login, createUser } from "./db/index.js";
-import { createKisk, getVisibleKisks } from "./db/kisksFunctions.js";
+import {
+  createKisk,
+  getVisibleKisks,
+  searchKisksById,
+  changeKiskVisibility,
+} from "./db/kisksFunctions.js";
 import cors from "cors";
 
 const app = express();
@@ -44,6 +49,28 @@ app.post("/createKisk", (req, res) => {
 
 app.post("/createUser", (req, res) => {
   createUser(req.body)
+    .then((result) => {
+      res.status(result.status).send(result.message);
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(500).send(err);
+    });
+});
+
+app.post("/getKisksByUser", (req, res) => {
+  searchKisksById(req.body.userId)
+    .then((result) => {
+      res.status(result.status).send(result.content || result.message);
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(500).send(err);
+    });
+});
+
+app.post("/changeKiskVisibility", (req, res) => {
+  changeKiskVisibility(req.body.kiskId, req.body.isVisible)
     .then((result) => {
       res.status(result.status).send(result.message);
     })

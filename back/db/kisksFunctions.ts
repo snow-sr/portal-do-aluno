@@ -62,3 +62,54 @@ export async function getVisibleKisks() {
   console.log(chalk.green("Posts found"));
   return new response(200, "Posts found", kisksSortidos);
 }
+
+export async function searchKisksById(userId: string) {
+  await prisma.$connect();
+  console.log(chalk.yellow("Connected to Prisma"));
+
+  let kisks = await prisma.post.findMany({
+    where: {
+      authorId: userId,
+    },
+  });
+
+  if (!kisks) {
+    console.log(chalk.green("No posts found"));
+    prisma.$disconnect();
+    return new response(503, "No posts found");
+  }
+
+  if (kisks.length < 1) {
+    console.log(chalk.green("No posts found"));
+    prisma.$disconnect();
+    return new response(503, "No posts found");
+  }
+
+  await prisma.$disconnect();
+  console.log(chalk.green("Posts found"));
+  return new response(200, "Posts found", kisks);
+}
+
+export async function changeKiskVisibility(KiskId: string, isVisible: boolean) {
+  await prisma.$connect();
+  console.log(chalk.yellow("Connected to Prisma"));
+
+  let kisk = await prisma.post.update({
+    where: {
+      id: KiskId,
+    },
+    data: {
+      isVisible,
+    },
+  });
+
+  if (!kisk) {
+    console.log(chalk.green("Post not found"));
+    prisma.$disconnect();
+    return new response(503, "Post not found");
+  }
+
+  await prisma.$disconnect();
+  console.log(chalk.green("Post Updated"));
+  return new response(200, "Post Updated");
+}
