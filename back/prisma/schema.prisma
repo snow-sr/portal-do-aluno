@@ -30,4 +30,5 @@ model post {
   isArticle  Boolean  @default(false)
   media      String? // Link for Audio, Video, Image  
   tags       String[]
+  isVisible  Boolean  @default(true)
 }

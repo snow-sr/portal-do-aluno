@@ -39,11 +39,11 @@ export async function createKisk(toPost: post) {
   return new response(200, "Post created");
 }
 
-export async function getKisks() {
+export async function getVisibleKisks() {
   await prisma.$connect();
   console.log(chalk.yellow("Connected to Prisma"));
 
-  let kisks = await prisma.post.findMany({});
+  let kisks = await prisma.post.findMany({ where: { isVisible: true } });
 
   if (!kisks) {
     console.log(chalk.green("No posts found"));

@@ -12,47 +12,50 @@ import { response } from "../lib/responseConstructor.js";
 import PrismaImport from "@prisma/client";
 const { PrismaClient } = PrismaImport;
 const prisma = new PrismaClient();
-export function login(email, password) {
+export function createKisk(toPost) {
     return __awaiter(this, void 0, void 0, function* () {
         yield prisma.$connect();
         console.log(chalk.yellow("Connected to Prisma"));
-        const userToLogin = yield prisma.user.findUnique({
-            where: { email: email },
-        });
-        if (!userToLogin) {
-            console.log(chalk.red("User not found"));
-            prisma.$disconnect();
-            return new response(401, "User not found");
-        }
-        if (userToLogin.password !== password) {
-            console.log(chalk.red("Wrong password"));
-            prisma.$disconnect();
-            return new response(401, "Wrong password");
-        }
-        prisma.$disconnect();
-        console.log(chalk.yellow("User found! Logging in..."));
-        return new response(200, "Authorized", userToLogin);
-    });
-}
-export function createUser(userToBeCreated) {
-    return __awaiter(this, void 0, void 0, function* () {
-        yield prisma.$connect();
-        console.log(chalk.yellow("Connected to Prisma"));
-        let newUser = yield prisma.user.create({
+        let newPost = yield prisma.post.create({
             data: {
-                name: userToBeCreated.name,
-                email: userToBeCreated.email,
-                password: userToBeCreated.password,
+                title: toPost.title,
+                content: toPost.content,
+                author: { connect: { id: toPost.author.id } },
+                authorName: toPost.author.name,
+                isArticle: toPost.isArticle,
             },
         });
-        if (!newUser) {
-            console.log(chalk.red("User not created"));
+        if (!newPost) {
+            console.log(chalk.green("Post not created"));
             prisma.$disconnect();
-            return new response(503, "User not created");
+            return new response(503, "Post not created");
         }
         yield prisma.$disconnect();
-        console.log(chalk.green("User created"));
-        return new response(200, "User created");
+        console.log(chalk.green("Post created"));
+        return new response(200, "Post created");
     });
 }
-//# sourceMappingURL=index.js.map
+export function getVisibleKisks() {
+    return __awaiter(this, void 0, void 0, function* () {
+        yield prisma.$connect();
+        console.log(chalk.yellow("Connected to Prisma"));
+        let kisks = yield prisma.post.findMany({ where: { isVisible: true } });
+        if (!kisks) {
+            console.log(chalk.green("No posts found"));
+            prisma.$disconnect();
+            return new response(503, "No posts found");
+        }
+        let kisksSortidos = kisks.sort((a, b) => {
+            if (a.data > b.data)
+                return -1;
+            if (a.data < b.data)
+                return 1;
+            return 0;
+        });
+        // KISKS SORTIDOS são os kisks ordenados por data!
+        yield prisma.$disconnect();
+        console.log(chalk.green("Posts found"));
+        return new response(200, "Posts found", kisksSortidos);
+    });
+}
+//# sourceMappingURL=kisksFunctions.js.map

@@ -10,8 +10,8 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 import chalk from "chalk";
 import express from "express";
 import "dotenv/config";
-import { login } from "./db/index.js";
-import { createKisk, getKisks } from "./db/postsFunctions.js";
+import { login, createUser } from "./db/index.js";
+import { createKisk, getVisibleKisks } from "./db/kisksFunctions.js";
 import cors from "cors";
 const app = express();
 const port = process.env.PORT || 8087;
@@ -22,7 +22,7 @@ app.get("/", (req, res) => {
     res.send("Hello World! This is the API of portal do aluno - ifc araquari");
 });
 app.get("/kisks", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    let kisks = yield getKisks();
+    let kisks = yield getVisibleKisks();
     res.status(kisks.status).send(kisks.content);
 }));
 app.post("/login", (req, res) => {
@@ -37,6 +37,16 @@ app.post("/login", (req, res) => {
 });
 app.post("/createKisk", (req, res) => {
     createKisk(req.body)
+        .then((result) => {
+        res.status(result.status).send(result.message);
+    })
+        .catch((err) => {
+        console.log(err);
+        res.status(500).send(err);
+    });
+});
+app.post("/createUser", (req, res) => {
+    createUser(req.body)
         .then((result) => {
         res.status(result.status).send(result.message);
     })

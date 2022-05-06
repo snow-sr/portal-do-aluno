@@ -1,8 +1,8 @@
 import chalk from "chalk";
 import express from "express";
 import "dotenv/config";
-import { login } from "./db/index.js";
-import { post, createKisk, getKisks } from "./db/postsFunctions.js";
+import { login, createUser } from "./db/index.js";
+import { createKisk, getVisibleKisks } from "./db/kisksFunctions.js";
 import cors from "cors";
 
 const app = express();
@@ -16,7 +16,7 @@ app.get("/", (req, res) => {
 });
 
 app.get("/kisks", async (req, res) => {
-  let kisks = await getKisks();
+  let kisks = await getVisibleKisks();
   res.status(kisks.status).send(kisks.content);
 });
 
@@ -33,6 +33,17 @@ app.post("/login", (req, res) => {
 
 app.post("/createKisk", (req, res) => {
   createKisk(req.body)
+    .then((result) => {
+      res.status(result.status).send(result.message);
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(500).send(err);
+    });
+});
+
+app.post("/createUser", (req, res) => {
+  createUser(req.body)
     .then((result) => {
       res.status(result.status).send(result.message);
     })

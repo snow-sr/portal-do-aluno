@@ -39,7 +39,7 @@ export function getKisks() {
     return __awaiter(this, void 0, void 0, function* () {
         yield prisma.$connect();
         console.log(chalk.yellow("Connected to Prisma"));
-        let kisks = yield prisma.post.findMany({});
+        let kisks = yield prisma.post.findMany({ where: { isVisible: true } });
         if (!kisks) {
             console.log(chalk.green("No posts found"));
             prisma.$disconnect();

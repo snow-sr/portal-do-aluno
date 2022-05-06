@@ -28,3 +28,32 @@ export async function login(email: string, password: string) {
   console.log(chalk.yellow("User found! Logging in..."));
   return new response(200, "Authorized", userToLogin);
 }
+
+export interface createUser {
+  name: string;
+  email: string;
+  password: string;
+}
+
+export async function createUser(userToBeCreated: createUser) {
+  await prisma.$connect();
+  console.log(chalk.yellow("Connected to Prisma"));
+
+  let newUser = await prisma.user.create({
+    data: {
+      name: userToBeCreated.name,
+      email: userToBeCreated.email,
+      password: userToBeCreated.password,
+    },
+  });
+
+  if (!newUser) {
+    console.log(chalk.red("User not created"));
+    prisma.$disconnect();
+    return new response(503, "User not created");
+  }
+
+  await prisma.$disconnect();
+  console.log(chalk.green("User created"));
+  return new response(200, "User created");
+}
