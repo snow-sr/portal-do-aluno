@@ -1,8 +1,9 @@
 <template>
   <div>
-    <img src="@/assets/images/logo.png" />
-
-    <div class="w-60 h-full bg-white px-1 absolute">
+    <div
+      class="w-90 h-full bg-white px-1 absolute border-r-4 border-gray-300 ... overflow-y-auto"
+    >
+      <img src="@/assets/images/logo.png" />
       <ul class="relative">
         <li class="relative">
           <a
