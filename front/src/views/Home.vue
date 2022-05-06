@@ -17,3 +17,5 @@ export default {
     <div class="w-25"><TagsPesquisa /></div>
   </div>
 </template>
+
+<style scoped src="@/assets/home.css"></style>

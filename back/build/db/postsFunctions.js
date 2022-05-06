@@ -22,6 +22,7 @@ export function createKisk(toPost) {
                 content: toPost.content,
                 author: { connect: { id: toPost.author.id } },
                 authorName: toPost.author.name,
+                isArticle: toPost.isArticle,
             },
         });
         if (!newPost) {
@@ -44,9 +45,17 @@ export function getKisks() {
             prisma.$disconnect();
             return new response(503, "No posts found");
         }
+        let kisksSortidos = kisks.sort((a, b) => {
+            if (a.data > b.data)
+                return -1;
+            if (a.data < b.data)
+                return 1;
+            return 0;
+        });
+        // KISKS SORTIDOS são os kisks ordenados por data!
         yield prisma.$disconnect();
         console.log(chalk.green("Posts found"));
-        return new response(200, "Posts found", kisks);
+        return new response(200, "Posts found", kisksSortidos);
     });
 }
 //# sourceMappingURL=postsFunctions.js.map

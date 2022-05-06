@@ -24,6 +24,7 @@ export default {
           id: user.id,
           name: user.name,
         },
+        isArticle: false,
       });
 
       await request
@@ -55,7 +56,8 @@ export default {
     >
       Algo deu errado, quer tentar de novo?
     </div>
-    <div class="block rounded-lg shadow-lg bg-white">
+
+    <div class="block p-8 rounded-lg shadow-lg bg-gray-200">
       <div
         class="bg-green-100 rounded-lg py-5 px-6 mb-4 text-base text-green-700 mb-3"
         role="alert"
@@ -92,7 +94,7 @@ export default {
           id="exampleFormControlTextarea13"
           rows="3"
           v-model="content"
-          placeholder="Message"
+          placeholder="Digite..."
           @change="
             () => {
               this.posted = false;
@@ -112,13 +114,8 @@ export default {
           for="exampleCheck87"
           >Pode ser compartilhado?</label
         >
+        <button>Enviar</button>
       </div>
-      <button
-        @click="createKisk"
-        class="w-full px-6 py-2.5 bg-green_ifc text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out"
-      >
-        Enviar
-      </button>
     </div>
   </div>
 </template>
