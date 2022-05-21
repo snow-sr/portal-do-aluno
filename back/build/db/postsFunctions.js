@@ -58,4 +58,19 @@ export function getKisks() {
         return new response(200, "Posts found", kisksSortidos);
     });
 }
+export function getUsers() {
+    return __awaiter(this, void 0, void 0, function* () {
+        yield prisma.$connect();
+        console.log(chalk.yellow("Connected to Prisma"));
+        const users = yield prisma.user.findMany({});
+        if (!users) {
+            console.log(chalk.green("No users found"));
+            prisma.$disconnect();
+            return new response(503, "No users found");
+        }
+        yield prisma.$disconnect();
+        console.log(chalk.green("Users found"));
+        return new response(200, "Users found", users);
+    });
+}
 //# sourceMappingURL=postsFunctions.js.map

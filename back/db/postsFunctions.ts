@@ -62,3 +62,21 @@ export async function getKisks() {
   console.log(chalk.green("Posts found"));
   return new response(200, "Posts found", kisksSortidos);
 }
+
+export async function getUsers() {
+  await prisma.$connect();
+  console.log(chalk.yellow("Connected to Prisma"));
+
+  const users = await prisma.user.findMany({});
+
+  if (!users) {
+    console.log(chalk.green("No users found"));
+    prisma.$disconnect();
+    return new response(503, "No users found");
+  }
+
+  await prisma.$disconnect();
+  console.log(chalk.green("Users found"));
+  return new response(200, "Users found", users);
+
+}

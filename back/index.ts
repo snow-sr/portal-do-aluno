@@ -2,7 +2,7 @@ import chalk from "chalk";
 import express from "express";
 import "dotenv/config";
 import { login } from "./db/index.js";
-import { post, createKisk, getKisks } from "./db/postsFunctions.js";
+import { post, createKisk, getKisks, getUsers } from "./db/postsFunctions.js";
 import cors from "cors";
 
 const app = express();
@@ -18,6 +18,11 @@ app.get("/", (req, res) => {
 app.get("/kisks", async (req, res) => {
   let kisks = await getKisks();
   res.status(kisks.status).send(kisks.content);
+});
+
+app.get("/users", async (req, res) => {
+  let users = await getUsers();
+  res.status(users.status).send(users.content);
 });
 
 app.post("/login", (req, res) => {

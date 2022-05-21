@@ -11,7 +11,7 @@ import chalk from "chalk";
 import express from "express";
 import "dotenv/config";
 import { login } from "./db/index.js";
-import { createKisk, getKisks } from "./db/postsFunctions.js";
+import { createKisk, getKisks, getUsers } from "./db/postsFunctions.js";
 import cors from "cors";
 const app = express();
 const port = process.env.PORT || 8087;
@@ -24,6 +24,10 @@ app.get("/", (req, res) => {
 app.get("/kisks", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     let kisks = yield getKisks();
     res.status(kisks.status).send(kisks.content);
+}));
+app.get("/users", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    let users = yield getUsers();
+    res.status(users.status).send(users.content);
 }));
 app.post("/login", (req, res) => {
     login(req.body.email, req.body.password)
