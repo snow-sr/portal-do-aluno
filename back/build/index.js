@@ -11,20 +11,28 @@ import chalk from "chalk";
 import express from "express";
 import "dotenv/config";
 import { login } from "./db/index.js";
-import { createKisk, getKisks } from "./db/postsFunctions.js";
+import { createKisk, getKisks, getUser } from "./db/postsFunctions.js";
 import cors from "cors";
 const app = express();
 const port = process.env.PORT || 8087;
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors());
+// General
 app.get("/", (req, res) => {
     res.send("Hello World! This is the API of portal do aluno - ifc araquari");
 });
+// Kisk
 app.get("/kisks", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     let kisks = yield getKisks();
     res.status(kisks.status).send(kisks.content);
 }));
+// User
+app.get("/user/:id", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    let user = yield getUser(req.params.id);
+    res.status(user.status).send(user.content);
+}));
+// Login
 app.post("/login", (req, res) => {
     login(req.body.email, req.body.password)
         .then((result) => {
@@ -35,6 +43,7 @@ app.post("/login", (req, res) => {
         res.status(500).send(err);
     });
 });
+// Kisk
 app.post("/createKisk", (req, res) => {
     createKisk(req.body)
         .then((result) => {
