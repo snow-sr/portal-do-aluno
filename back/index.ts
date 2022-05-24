@@ -1,8 +1,9 @@
 import chalk from "chalk";
-import express from "express";
+import express, { application } from "express";
 import "dotenv/config";
 import { login } from "./db/index.js";
-import { post, createKisk, getKisks, getUser } from "./db/postsFunctions.js"; 
+import { searchByText } from "./db/searchFunctions.js";
+import { post, createKisk, getKisks, getUser } from "./db/postsFunctions.js";
 import cors from "cors";
 
 const app = express();
@@ -46,6 +47,18 @@ app.post("/createKisk", (req, res) => {
   createKisk(req.body)
     .then((result) => {
       res.status(result.status).send(result.message);
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(500).send(err);
+    });
+});
+// Search Kisk and user
+app.post("/search/:query", (req, res) => {
+  let query = req.params.query;
+  searchByText(query)
+    .then((result) => {
+      res.status(result.status).send(result.content);
     })
     .catch((err) => {
       console.log(err);
