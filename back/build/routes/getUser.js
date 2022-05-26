@@ -7,19 +7,9 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-import { createKisk, getKisks } from "../db/postsFunctions.js";
-export const retrieveKisks = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    let kisks = yield getKisks();
-    res.status(kisks.status).send(kisks.content);
+import { getUser } from "../db/postsFunctions.js";
+export const getUserById = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    let user = yield getUser(req.params.id);
+    res.status(user.status).send(user.content);
 });
-export const newKisk = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    createKisk(req.body)
-        .then((result) => {
-        res.status(result.status).send(result.message);
-    })
-        .catch((err) => {
-        console.log(err);
-        res.status(500).send(err);
-    });
-});
-//# sourceMappingURL=kisks.js.map
+//# sourceMappingURL=getUser.js.map
