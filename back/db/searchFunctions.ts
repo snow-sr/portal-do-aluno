@@ -8,27 +8,39 @@ export async function searchByText(query: string) {
   await prisma.$connect();
   console.log(chalk.yellow("Connected to Prisma"));
 
-  //if query starts with @
   if (query.startsWith("@")) {
-    let user = await prisma.user.findMany({
+    console.log("Searching for users, not posts!");
+    let users = await prisma.user.findMany({
       where: {
         name: {
-          contains: query,
+          contains: query.substring(1),
+          mode: "insensitive",
         },
       },
     });
+
+    if (!users) {
+      prisma.$disconnect();
+      return new response(503, "No users found");
+    }
+
+    prisma.$disconnect();
+    return new response(200, "Users found", users);
   }
+  console.log("Searching for posts, not for users!");
   let kisks = await prisma.post.findMany({
     where: {
       OR: [
         {
           title: {
             contains: query,
+            mode: "insensitive",
           },
         },
         {
           content: {
             contains: query,
+            mode: "insensitive",
           },
         },
       ],
