@@ -2,7 +2,7 @@
   <div
     class="invisible h-screen md:visible border-l-4 border-gray-300 ... overflow-y-auto"
   >
-    <div class="border-4 border-gray-300 p-3 pt-10 m-10 collapse" id="tags">
+    <div class="border-4 border-gray-300 p-3 pt-10 m-10" id="tags">
       <div class="flex justify-center">
         <div class="mb-3 xl:w-96">
           <div
