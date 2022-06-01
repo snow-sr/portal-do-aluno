@@ -9,12 +9,12 @@ export default {
 </script>
 
 <template>
-  <div class="grid grid-cols-3">
-    <div class="w-25"><SideNav /></div>
+  <div class="grid grid-cols-4">
+    <div class=""><SideNav /></div>
 
-    <div class="w-25"><Feed /></div>
+    <div class="col-span-2"><Feed /></div>
 
-    <div class="w-25"><TagsPesquisa /></div>
+    <div class=""><TagsPesquisa /></div>
   </div>
 </template>
 

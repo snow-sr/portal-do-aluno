@@ -1,6 +1,10 @@
 {
   "dependencies": {
+<<<<<<< HEAD
     "@prisma/client": "^3.14.0",
+=======
+    "@prisma/client": "^3.13.0",
+>>>>>>> origin/vini
     "@prisma/engines": "^3.14.0-12.fd79bd1b7ef358f87831ab08bc0b01470c2fde8a",
     "bson": "^4.6.2",
     "cors": "^2.8.5",
