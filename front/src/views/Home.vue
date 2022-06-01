@@ -1,16 +1,20 @@
 <script>
-import sideNav from "../components/sideNav.vue";
-import FeedComponent from "../components/feedComponent.vue";
+import SideNav from "@/components/SideNav.vue";
+import Feed from "@/components/Feed.vue";
+import TagsPesquisa from "@/components/TagsPesquisa.vue";
 
 export default {
-  components: { sideNav, FeedComponent },
+  components: { SideNav, Feed, TagsPesquisa },
 };
 </script>
 
 <template>
-  <div class="grid grid-cols-2">
-    <side-nav />
-    <feed-component />
+  <div class="grid grid-cols-4">
+    <div class=""><SideNav /></div>
+
+    <div class="col-span-2"><Feed /></div>
+
+    <div class=""><TagsPesquisa /></div>
   </div>
 </template>
 
