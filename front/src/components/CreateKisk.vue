@@ -24,7 +24,7 @@ export default {
           id: user.id,
           name: user.name,
         },
-        isArticle: false,
+        isArticle: false,z
       });
 
       await request
@@ -46,11 +46,3 @@ export default {
   },
 };
 </script>
-
-
-
-<template>
-    <!-- Button trigger modal -->
-<!-- Modal -->
-
-</template>
