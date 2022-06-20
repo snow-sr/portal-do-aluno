@@ -90,3 +90,24 @@ export async function getUser(idUser: string) {
   prisma.$disconnect();
   return new response(503, "Invalid id, it must have 24 characters.");
 }
+
+export async function deleteKisk(id: string) {
+  await prisma.$connect();
+  console.log(chalk.yellow("Connected to Prisma"));
+
+  let kisk = await prisma.post.delete({
+    where: {
+      id: id,
+    },
+  });
+
+  if (!kisk) {
+    console.log(chalk.green("Post not deleted or not found"));
+    prisma.$disconnect();
+    return { status: false, msg: "Post not deleted or not found" };
+  }
+
+  await prisma.$disconnect();
+  console.log(chalk.green("Post deleted"));
+  return { status: true, msg: "Post deleted" };
+}

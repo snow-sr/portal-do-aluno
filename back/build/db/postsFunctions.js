@@ -58,4 +58,29 @@ export function getKisks() {
         return new response(200, "Posts found", kisksSortidos);
     });
 }
+export function getUser(idUser) {
+    return __awaiter(this, void 0, void 0, function* () {
+        yield prisma.$connect();
+        console.log(chalk.yellow("Connected to Prisma."));
+        // Default ObjectId length is 24 characters.
+        if (idUser.length == 24) {
+            let user = yield prisma.user.findUnique({
+                where: {
+                    id: idUser,
+                },
+            });
+            if (!user) {
+                console.log(chalk.green(`User ${idUser} not found.`));
+                prisma.$disconnect();
+                return new response(503, `User ${idUser} not found.`);
+            }
+            yield prisma.$disconnect();
+            console.log(chalk.green(`User ${idUser} found.`));
+            return new response(200, `User ${idUser} found.`, user);
+        }
+        console.log(chalk.green("Invalid id, it must have 24 characters."));
+        prisma.$disconnect();
+        return new response(503, "Invalid id, it must have 24 characters.");
+    });
+}
 //# sourceMappingURL=postsFunctions.js.map
