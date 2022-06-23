@@ -36,7 +36,7 @@ export async function createKisk(toPost: post) {
 
   await prisma.$disconnect();
   console.log(chalk.green("Post created"));
-  return new response(200, "Post created");
+  return new response(200, "Post created", newPost);
 }
 
 export async function getKisks() {
@@ -89,4 +89,27 @@ export async function getUser(idUser: string) {
   console.log(chalk.green("Invalid id, it must have 24 characters."));
   prisma.$disconnect();
   return new response(503, "Invalid id, it must have 24 characters.");
+}
+
+export async function deleteKisk(id: string) {
+  await prisma.$connect();
+  console.log(chalk.yellow("Connected to Prisma"));
+
+  let kisk = await prisma.post.delete({
+    where: {
+      id: id,
+    },
+  });
+
+  console.log(kisk);
+
+  if (!kisk) {
+    console.log(chalk.green("Post not deleted or not found"));
+    prisma.$disconnect();
+    return { status: false, msg: "Post not deleted or not found" };
+  }
+
+  await prisma.$disconnect();
+  console.log(chalk.green("Post deleted"));
+  return { status: true, msg: "Post deleted" };
 }
