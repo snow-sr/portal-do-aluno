@@ -17,15 +17,15 @@ app.get("/", (req, res) => {
         .status(200)
         .send("Hello World! This is the API of portal do aluno - ifc araquari");
 });
-// Kisk
+// Kisks, retrieve all the kisks existing in the database
 app.get("/kisks", retrieveKisks);
-// User
+// User, retrieve a user by id
 app.get("/user/:id", getUserById);
-// Login
+// Login, authenticates an user
 app.post("/login", loginRoute);
-// Kisk
-app.post("/createKisk", newKisk);
-// Search Kisk and user
+// Kisk, create a new kisk
+app.post("/createKisk/:debug", newKisk);
+// Search Kisk and user, search for a kisk or user
 app.post("/search/:query", Search);
 app.listen(port, () => {
     console.log(chalk.green(`Server started on port ${port}`));

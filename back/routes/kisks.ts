@@ -8,24 +8,18 @@ export const retrieveKisks = async (req: any, res: any) => {
 export const newKisk = async (req: any, res: any) => {
   let debug = req.params.debug;
 
+  //Delete kisk if debug is true
   if (debug == "true") {
-    console.log("debug mode");
+    console.log("debug");
     createKisk(req.body)
       .then(async (result) => {
-        await deleteKisk(result.content.id)
-          .then((result) => {
-            res.status(result.status).send(result.msg);
-          })
-          .catch((err) => {
-            console.log(err);
-          });
+        let kisk = await deleteKisk(result.content.id);
+        res.status(result.status).send(kisk.msg);
       })
       .catch((err) => {
         console.log(err);
         res.status(500).send(err);
       });
-
-    //delete kisk after testing
   }
 
   createKisk(req.body)

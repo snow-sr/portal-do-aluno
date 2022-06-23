@@ -48,14 +48,9 @@ test("Search", async () => {
 });
 
 test("Login (sucess)", async () => {
-  return await axios
-    .post(`${baseUrl}/login/`, {
-      email: "fabio@moura.com",
-      password: "senhadofabio",
-    })
-    .then((response) => {
-      expect(response.status).toBe(200);
-    });
+  return await axios.post(`${baseUrl}/login/`, login).then((response) => {
+    expect(response.status).toBe(200);
+  });
 });
 
 test("Login (fail)", async () => {
@@ -72,7 +67,7 @@ test("Login (fail)", async () => {
 test("Create kisk", async () => {
   // It's true for debug, it will create an post and delete it;
   return await axios
-    .post(`${baseUrl}/createKisk/?=true`, fakeKisk)
+    .post(`${baseUrl}/createKisk/true`, fakeKisk)
     .then((response) => {
       expect(response.status).toBe(200);
     });

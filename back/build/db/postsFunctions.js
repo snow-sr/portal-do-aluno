@@ -32,7 +32,7 @@ export function createKisk(toPost) {
         }
         yield prisma.$disconnect();
         console.log(chalk.green("Post created"));
-        return new response(200, "Post created");
+        return new response(200, "Post created", newPost);
     });
 }
 export function getKisks() {
@@ -81,6 +81,26 @@ export function getUser(idUser) {
         console.log(chalk.green("Invalid id, it must have 24 characters."));
         prisma.$disconnect();
         return new response(503, "Invalid id, it must have 24 characters.");
+    });
+}
+export function deleteKisk(id) {
+    return __awaiter(this, void 0, void 0, function* () {
+        yield prisma.$connect();
+        console.log(chalk.yellow("Connected to Prisma"));
+        let kisk = yield prisma.post.delete({
+            where: {
+                id: id,
+            },
+        });
+        console.log(kisk);
+        if (!kisk) {
+            console.log(chalk.green("Post not deleted or not found"));
+            prisma.$disconnect();
+            return { status: false, msg: "Post not deleted or not found" };
+        }
+        yield prisma.$disconnect();
+        console.log(chalk.green("Post deleted"));
+        return { status: true, msg: "Post deleted" };
     });
 }
 //# sourceMappingURL=postsFunctions.js.map

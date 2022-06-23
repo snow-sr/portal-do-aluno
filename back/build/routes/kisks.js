@@ -7,14 +7,29 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-import { createKisk, getKisks } from "../db/postsFunctions.js";
+import { createKisk, getKisks, deleteKisk } from "../db/postsFunctions.js";
 export const retrieveKisks = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     let kisks = yield getKisks();
     res.status(kisks.status).send(kisks.content);
 });
 export const newKisk = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    let debug = req.params.debug;
+    //Delete kisk if debug is true
+    if (debug == "true") {
+        console.log("debug");
+        createKisk(req.body)
+            .then((result) => __awaiter(void 0, void 0, void 0, function* () {
+            let kisk = yield deleteKisk(result.content.id);
+            res.status(result.status).send(kisk.msg);
+        }))
+            .catch((err) => {
+            console.log(err);
+            res.status(500).send(err);
+        });
+    }
     createKisk(req.body)
         .then((result) => {
+        console.log("NOT DEBUGGING");
         res.status(result.status).send(result.message);
     })
         .catch((err) => {

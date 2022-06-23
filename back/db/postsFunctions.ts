@@ -36,7 +36,7 @@ export async function createKisk(toPost: post) {
 
   await prisma.$disconnect();
   console.log(chalk.green("Post created"));
-  return new response(200, "Post created");
+  return new response(200, "Post created", newPost);
 }
 
 export async function getKisks() {
@@ -100,6 +100,8 @@ export async function deleteKisk(id: string) {
       id: id,
     },
   });
+
+  console.log(kisk);
 
   if (!kisk) {
     console.log(chalk.green("Post not deleted or not found"));
